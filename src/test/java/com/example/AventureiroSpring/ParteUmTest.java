@@ -1,7 +1,7 @@
 package com.example.AventureiroSpring;
 
-import com.example.AventureiroSpring.model.*;
-import com.example.AventureiroSpring.repository.*;
+import com.example.AventureiroSpring.audit.model.*;
+import com.example.AventureiroSpring.audit.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
