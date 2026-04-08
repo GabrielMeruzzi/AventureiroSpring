@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RegistroDeMissaoService {
-
     private final RegistroDeMissaoRepository registroDeMissaoRepository;
     private final MissaoRepository missaoRepository;
 

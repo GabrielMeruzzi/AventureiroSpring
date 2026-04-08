@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/registros-missao")
+@RequestMapping("/registros-missao")
 @RequiredArgsConstructor
 public class RegistroDeMissaoController {
 

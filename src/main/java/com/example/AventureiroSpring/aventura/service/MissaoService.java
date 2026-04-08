@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class MissaoService {
-
     private final MissaoRepository missaoRepository;
     private final AventureiroRepository aventureiroRepository;
 

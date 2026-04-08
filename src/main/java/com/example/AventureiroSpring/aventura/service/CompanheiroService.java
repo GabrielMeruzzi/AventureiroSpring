@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CompanheiroService {
-
     private final CompanheiroRepository companheiroRepository;
 
     public List<Companheiro> listarTodos() {

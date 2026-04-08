@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AventureiroService {
-
     private final AventureiroRepository aventureiroRepository;
     private final RegistroDeMissaoRepository registroDeMissaoRepository;
 
