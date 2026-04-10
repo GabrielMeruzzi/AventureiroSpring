@@ -1,6 +1,8 @@
 package com.example.AventureiroSpring.elastic.controller;
 
 import com.example.AventureiroSpring.elastic.dto.DocumentCountDTO;
+import com.example.AventureiroSpring.elastic.dto.FaixaPrecoResponseDTO;
+import com.example.AventureiroSpring.elastic.dto.PrecoMedioResponseDTO;
 import com.example.AventureiroSpring.elastic.dto.ProdutoBuscaResponseDTO;
 import com.example.AventureiroSpring.elastic.service.ProdutoElasticService;
 import lombok.RequiredArgsConstructor;
@@ -77,5 +79,15 @@ public class ProdutoElasticController {
     @GetMapping("/agregacoes/por-raridade")
     public List<DocumentCountDTO> quantidadeProdutosPorRaridade() throws IOException {
         return produtoElasticService.quantidadeProdutosPorRaridade();
+    }
+
+    @GetMapping("/agregacoes/preco-medio")
+    public PrecoMedioResponseDTO precoMedioProdutos() throws IOException {
+        return produtoElasticService.precoMedioProdutos();
+    }
+
+    @GetMapping("/agregacoes/faixas-preco")
+    public List<FaixaPrecoResponseDTO> contarPorFaixaPreco() throws IOException {
+        return produtoElasticService.contarPorFaixaPreco();
     }
 }

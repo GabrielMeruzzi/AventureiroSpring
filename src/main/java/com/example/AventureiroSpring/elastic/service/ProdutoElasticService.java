@@ -1,9 +1,12 @@
 package com.example.AventureiroSpring.elastic.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.aggregations.AggregationRange;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.example.AventureiroSpring.elastic.dto.DocumentCountDTO;
+import com.example.AventureiroSpring.elastic.dto.FaixaPrecoResponseDTO;
+import com.example.AventureiroSpring.elastic.dto.PrecoMedioResponseDTO;
 import com.example.AventureiroSpring.elastic.dto.ProdutoBuscaResponseDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -236,5 +239,55 @@ public class ProdutoElasticService {
                         bucket.docCount()
                 ))
                 .toList();
+    }
+
+    public PrecoMedioResponseDTO precoMedioProdutos() throws IOException {
+        SearchResponse<Void> response = client.search(s -> s
+                        .index("guilda_loja")
+                        .size(0)
+                        .aggregations("preco_medio", a -> a
+                                .avg(avg -> avg.field("preco"))
+                        ),
+                Void.class
+        );
+
+        Double precoMedio = response.aggregations()
+                .get("preco_medio")
+                .avg()
+                .value();
+
+        return new PrecoMedioResponseDTO(precoMedio);
+    }
+
+    public List<FaixaPrecoResponseDTO> contarPorFaixaPreco() throws IOException {
+        SearchResponse<Void> response = client.search(s -> s
+                        .index("guilda_loja")
+                        .size(0)
+                        .aggregations("faixa_preco", a -> a
+                                .range(r -> r
+                                        .field("preco")
+                                        .ranges(
+                                                AggregationRange.of(rg -> rg.to(100.0)),
+                                                AggregationRange.of(rg -> rg.from(100.0).to(300.0)),
+                                                AggregationRange.of(rg -> rg.from(300.0).to(700.0)),
+                                                AggregationRange.of(rg -> rg.from(700.0))
+                                        )
+                                )
+                        ),
+                Void.class
+        );
+
+        var buckets = response.aggregations()
+                .get("faixa_preco")
+                .range()
+                .buckets()
+                .array();
+
+        return List.of(
+                new FaixaPrecoResponseDTO("Abaixo de 100", buckets.get(0).docCount()),
+                new FaixaPrecoResponseDTO("100 a 300", buckets.get(1).docCount()),
+                new FaixaPrecoResponseDTO("300 a 700", buckets.get(2).docCount()),
+                new FaixaPrecoResponseDTO("Acima de 700", buckets.get(3).docCount())
+        );
     }
 }
